@@ -82,40 +82,41 @@ const TicTacToe = () => {
   };
 
   const Winner = () => {
-    return <div>Winner is: {winner === 'x' ? 'Player 1' : 'Player 2'}</div>;
+    return <div>Winner is: {winner === "x" ? "Player 1" : "Player 2"}</div>;
   };
 
   const registerPlayer = () => {
     socket.emit("register player");
   };
 
+  const Player = ({ playerNumber }) => {
+    return (
+      <div className="player">
+        <div>Player {playerNumber}</div>
+        {players.length < playerNumber ? (
+          <>
+            <br />
+            <button onClick={registerPlayer}>Play!</button>
+          </>
+        ) : (
+          <div className={playerNumber === 1 ? "x" : "o"}></div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div>
       <h1>Tic Tac Toe</h1>
+      {players.length === 2 && <div>Current move: {player}</div>}
       <div className="boardContainer">
-        <div className="player">
-          <div>Player 1</div>
-          {players.length < 1 ? (
-            <>
-              <br />
-              <button onClick={registerPlayer}>Play!</button>
-            </>
-          ) : <div class="x"></div>}
-        </div>
+        <Player playerNumber={1} />
         <div className="boardSection">
           <Board />
           {players.includes(socket.id) && <ResetButton />}
           {winner && <Winner />}
         </div>
-        <div className="player">
-          <div>Player 2</div>
-          {players.length < 2 ? (
-            <>
-              <br />
-              <button onClick={registerPlayer}>Play!</button>
-            </>
-          ) : <div class="o"></div>}
-        </div>
+        <Player playerNumber={2} />
       </div>
     </div>
   );
