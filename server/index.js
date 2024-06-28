@@ -1,7 +1,7 @@
 const { Server } = require("socket.io");
 const { createServer } = require("node:http");
 const express = require("express");
-const tictactoe = require("./connector");
+const tictactoe = require("./game");
 
 const app = express();
 const server = createServer(app);
